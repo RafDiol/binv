@@ -107,5 +107,7 @@ int main(int argc, char** argv){
         offset += bytesRead;
     }
 
+    fclose(file);
+
     return SUCCESSFUL_EXECUTION;
 }
