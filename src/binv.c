@@ -92,7 +92,7 @@ int main(int argc, char** argv){
     size_t bytesRead;
     size_t offset = 0;
     while((bytesRead = fread(buffer, 1, bufferSize, file)) > 0){
-        printf("%08zx\t", offset);
+        printf("%08zx:\t", offset);
         for(size_t i = 0; i < bytesRead; i++){
             printf("%02x ", buffer[i]);
         }
