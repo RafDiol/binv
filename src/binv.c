@@ -24,7 +24,7 @@ double sStrToDouble(char* str, short* flag){
 }
 
 int main(int argc, char** argv){
-    char* filepath;
+    char* filepath = NULL;
     unsigned char flags = 0;
     size_t bufferSize = BUFFER_SIZE;
     if(argc > 1){
@@ -42,6 +42,7 @@ int main(int argc, char** argv){
             }
             if(strcmp(argv[i], "--buffer-size") == 0 || strcmp(argv[i], "-b") == 0){
                 if(i + 1 >= argc){
+                    fprintf(stderr, "Error: no buffer size parameter provided\n");
                     return ARGUMENT_PARSING_ERROR;
                 }
                 i++;
@@ -53,6 +54,7 @@ int main(int argc, char** argv){
             }
             if(strcmp(argv[i], "--file") == 0 || strcmp(argv[i], "-f") == 0){
                 if(i + 1 >= argc){
+                    fprintf(stderr, "Error: no file parameter provided\n");
                     return ARGUMENT_PARSING_ERROR;
                 }
                 i++;
@@ -62,19 +64,28 @@ int main(int argc, char** argv){
     } else {
         filepath = malloc(sizeof(char) * 256);
         if(filepath == NULL){
+            fprintf(stderr, "Error: memory allocation failed\n");
             return MEMORY_ALLOCATION_ERROR;
         }
         printf("Filepath: ");
         fgets(filepath, 256, stdin);
+        filepath[strcspn(filepath, "\n")] = '\0';
+    }
+
+    if(filepath == NULL){
+        fprintf(stderr, "Error: no file provided\n");
+        return ARGUMENT_PARSING_ERROR;
     }
 
     FILE* file = fopen(filepath, "rb");
     if(file == NULL){
+        fprintf(stderr, "Error: unable to open file \"%s\"\n", filepath);
         return IO_ERROR;
     }
 
     unsigned char* buffer = malloc(sizeof(unsigned char) * bufferSize);
     if(buffer == NULL){
+        fprintf(stderr, "Error: memory allocation failed\n");
         return MEMORY_ALLOCATION_ERROR;
     }
 
