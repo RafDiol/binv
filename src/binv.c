@@ -108,7 +108,7 @@ int main(int argc, char** argv){
             printf("\t");
             for(size_t i = 0; i < bytesRead; i++){
                 char c = buffer[i];
-                if(!(c >= 32 && c < 126)){
+                if(!(c >= 32 && c <= 126)){
                     c = '.';
                 }
                 printf("%c", c);
